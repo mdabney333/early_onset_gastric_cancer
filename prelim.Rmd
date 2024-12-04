@@ -12,6 +12,8 @@ library(skimr)
 library(janitor)
 library(dplyr)
 library(forcats)
+library(knitr)
+library(tidyr)
 ```
 
 ```{r, echo=FALSE}
@@ -19,7 +21,7 @@ data <- read.csv('gastric_cancer_data.csv', stringsAsFactors = TRUE, na.strings 
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
-#data cleaning
+# Clean data 
 data <- data %>%
   mutate(across(where(is.factor), ~ fct_recode(
     factor(trimws(.x)), 
@@ -28,6 +30,7 @@ data <- data %>%
     "Y" = "Y "
   )))
 
+# Recode race and ethnicity categories
 data <- data %>%
   mutate(across(where(is.factor), ~ fct_recode(.x,
     `Male` = "1  Male", `Female` = "2 Female", `Female` = "2  Female",
@@ -38,15 +41,16 @@ data <- data %>%
     `South or Central American` = "4  South or Central American (except Brazil)",
     `Spanish` = "6  Spanish, NOS; Hispanic, NOS; Latino, NOS",
     `In` = "In", `Out` = "Out", `Unknown` = "Unknown",
-    `Moderately Differentiated` = "Moderately differentiated", `Moderately-to-Poorly Differentiated` = "Moderately-to-Poorly differentiated",
+    `Moderately Differentiated` = "Moderately differentiated", 
+    `Moderately-to-Poorly Differentiated` = "Moderately-to-Poorly differentiated",
     `Poorly Cohesive` = "poorly cohesive", `Poorly Differentiated` = "Poorly differentiated",
     `Well Differentiated` = "Well Differentiated", `Unknown` = "Unknown",
     `Stage 1` = "Stage 1", `Stage 2` = "Stage 2", `Stage 3` = "Stage 3", `Stage 4` = "Stage 4",
     `Alive` = "Alive (1)", `Alive (1+)` = "Alive (1+)", `Alive (2+)` = "Alive (2+)"
   )))
 
+# Fix Length of Survival categories
 data$Length.of.Survival..5.year. <- as.factor(data$Length.of.Survival..5.year.)
-
 data$Length.of.Survival..5.year. <- as.character(data$Length.of.Survival..5.year.)
 
 data$Length.of.Survival..5.year. <- recode(data$Length.of.Survival..5.year.,
@@ -65,7 +69,23 @@ data$Length.of.Survival..5.year. <- factor(data$Length.of.Survival..5.year.,
                                             levels = c("0", "1", "2", "3", "4", "5"), 
                                             labels = c("0", "1", "2", "3", "4", "5"))
 
+# Now, update the "White" race group to "Hispanic" if they also belong to a Hispanic origin group
+data <- data %>%
+  mutate(Race.1 = case_when(
+    Race.1 == "White" & (Spanish.Hispanic.Origin %in% c("Mexican", "South or Central American", "Spanish")) ~ "Hispanic",
+    TRUE ~ Race.1  # Keep the original race for other cases
+  ))
+
 ```
+
+
+```{r, echo=FALSE}
+# Create a table of counts for Race.1 and Time.Period
+#race_time_table <- table(data$Race.1, data$Time.Period)
+#print(race_time_table)
+
+```
+
 
 ```{r, echo=FALSE}
 #start subsetting
@@ -73,189 +93,246 @@ data$Length.of.Survival..5.year. <- factor(data$Length.of.Survival..5.year.,
 data$Time.Period <- ifelse(data$Year.of.Diagnosis >= 2010 & data$Year.of.Diagnosis <= 2016, "2010-2016", 
                            ifelse(data$Year.of.Diagnosis >= 2017 & data$Year.of.Diagnosis <= 2023, "2017-2023", NA))
 ```
+
 ```{r, echo=FALSE}
-# Recode Hispanic status based on 'Spanish.Hispanic.Origin'
-data$Hispanic <- ifelse(data$Spanish.Hispanic.Origin %in% c("Mexican", "South or Central American"), 1, 0)
+# Recode Hispanic status, including White individuals with Hispanic origin
+data$Hispanic <- ifelse(data$Race.1 == "Hispanic", 1, 0)
 
 # Recode African American status based on 'Race.1'
 data$African.American <- ifelse(data$Race.1 == "Black or African American", 1, 0)
 
 # Recode Born in US status based on 'Born.in.Vs.Out.of.US'
-data$Born.In.US <- ifelse(data$Born.in.Vs.Out.of.US == "In", 1, 0)
+data$Born.in.Vs.Out.of.US <- trimws(data$Born.in.Vs.Out.of.US)
+
+# Ensure there are no extra spaces
+data$Born.in.Vs.Out.of.US <- trimws(data$Born.in.Vs.Out.of.US)
+
+# Correct the assignment logic for Born.In.US
+data$Born.In.US <- ifelse(data$Born.in.Vs.Out.of.US == "In", 1, 
+                          ifelse(data$Born.in.Vs.Out.of.US == "Out", 0, NA))
 
 ```
 
 ```{r, echo=FALSE}
-# Calculate the incidence rate for each group in each time period
-# We will calculate the proportion of cases in each group for the two time periods
+# Convert Race.1 to a factor
+data$Race.1 <- as.factor(data$Race.1)
 
-# Number of cases in each group by time period
-table_2010_2016 <- table(data$Group[data$Time.Period == "2010-2016"])
-table_2017_2023 <- table(data$Group[data$Time.Period == "2017-2023"])
-
-# Total number of cases in each group for the whole period (to calculate the occurrence rate)
-total_cases <- table(data$Group)
-
-# Calculate the incidence rate (proportion) in each group for the two time periods
-rate_2010_2016 <- table_2010_2016 / total_cases
-rate_2017_2023 <- table_2017_2023 / total_cases
-
+# Convert Time.Period to a factor
+data$Time.Period <- as.factor(data$Time.Period)
 ```
+
 
 ```{r, echo=FALSE}
-# Define groups and time periods
-groups <- c("Hispanic", "African.American", "Born.In.US", "Born.outside.US", "Everyone")  
-time_periods <- c("2010-2016", "2017-2023")
+# Define the population data for both periods
+total_population_2010_2016 <- c(2104289, 2127256, 2160074, 2194414, 2244323, 2285102, 2294844)
+total_population_2017_2023 <- c(2311418, 2326927, 2324864, 2319550, 2360573, 2371448)
 
-# Initialize empty data frame for incidence rates
-incidence_data <- data.frame(Group = character(), TimePeriod = character(), IncidenceRate = numeric())
+black_population_2010_2016 <- c(408232.07, 412687.66, 423374.50, 432299.56, 444375.95, 450165.09, 456673.96)
+black_population_2017_2023 <- c(462283.60, 467712.33, 474272.26, 480146.85, 498080.90, 512232.77)
 
-# Calculate the incidence rate for each group and time period
-for(group in groups) {
-  for(period in time_periods) {
-    # For Born.outside.US, the filter needs to check for 'Born.In.US' being 0
-    group_data <- if (group == "Born.outside.US") {
-      data[data$Born.In.US == 0 & data$Time.Period == period, ]
-    } else {
-      data[data[[group]] == 1 & data$Time.Period == period, ]
-    }
-    
-    total_group_data <- if (group == "Born.outside.US") {
-      data[data$Born.In.US == 0, ]
-    } else {
-      data[data[[group]] == 1, ]
-    }
-    
-    # Calculate incidence rate: proportion of group cases in the time period
-    rate <- nrow(group_data) / nrow(total_group_data)
-    
-    # Append the result to the dataframe
-    incidence_data <- rbind(incidence_data, data.frame(Group = group, TimePeriod = period, IncidenceRate = rate))
-  }
-}
+hispanic_population_2010_2016 <- c(862758.49, 880683.98, 896430.71, 912876.22, 938127.01, 959742.84, 973013.86)
+hispanic_population_2017_2023 <- c(993909.74, 1007559.39, 1015965.57, 1029880.20, 1052815.56, 1045808.57)
 
-# Add data for 'Everyone' group (if needed)
-for(period in time_periods) {
-  group_data <- data[data$Time.Period == period, ]
-  total_group_data <- data
-  rate <- nrow(group_data) / nrow(total_group_data)
-  incidence_data <- rbind(incidence_data, data.frame(Group = "Everyone", TimePeriod = period, IncidenceRate = rate))
-}
+# Calculate the averages for each period
+avg_total_population_2010_2016 <- mean(total_population_2010_2016, na.rm = TRUE)
+avg_total_population_2017_2023 <- mean(total_population_2017_2023, na.rm = TRUE)
+
+avg_black_population_2010_2016 <- mean(black_population_2010_2016, na.rm = TRUE)
+avg_black_population_2017_2023 <- mean(black_population_2017_2023, na.rm = TRUE)
+
+avg_hispanic_population_2010_2016 <- mean(hispanic_population_2010_2016, na.rm = TRUE)
+avg_hispanic_population_2017_2023 <- mean(hispanic_population_2017_2023, na.rm = TRUE)
+
+# Create a simplified data frame with average values
+estimated_at_risk_population_avg <- data.frame(
+  Group = c("Total At-Risk Population", "Black Population", "Hispanic Population"),
+  `2010-2016 Average` = c(avg_total_population_2010_2016, avg_black_population_2010_2016, avg_hispanic_population_2010_2016),
+  `2017-2023 Average` = c(avg_total_population_2017_2023, avg_black_population_2017_2023, avg_hispanic_population_2017_2023)
+)
+
+# Print the data frame
+#print(estimated_at_risk_population_avg)
+
+# Title for the table
+title <- "Estimated At-Risk Population Averages"
+
+kable(estimated_at_risk_population_avg, caption = title)
 
 ```
 
-```{r, echo=FALSE, warning=FALSE}
-# Plot the incidence rates
-ggplot(incidence_data, aes(x = Group, y = IncidenceRate, fill = TimePeriod)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Incidence Rate of Early-Onset Gastric Cancer by Group and Time Period",
-       x = "Group", y = "Incidence Rate") +
-  theme_minimal()
+
+```{r, echo=FALSE}
+# Number of incidents (numerator) from the table for each race and period
+incidents_black_2010_2016 <- 10
+incidents_black_2017_2023 <- 4
+
+incidents_hispanic_2010_2016 <- 44
+incidents_hispanic_2017_2023 <- 52
+
+incidents_total_2010_2016 <- sum(c(10, 44))  # Sum for Black + Hispanic (you can add others if needed)
+incidents_total_2017_2023 <- sum(c(4, 52))   # Sum for Black + Hispanic (you can add others if needed)
+
+# Calculate the incident rates for each group and period
+incident_rate_black_2010_2016 <- (incidents_black_2010_2016 / avg_black_population_2010_2016) * 100000
+incident_rate_black_2017_2023 <- (incidents_black_2017_2023 / avg_black_population_2017_2023) * 100000
+
+incident_rate_hispanic_2010_2016 <- (incidents_hispanic_2010_2016 / avg_hispanic_population_2010_2016) * 100000
+incident_rate_hispanic_2017_2023 <- (incidents_hispanic_2017_2023 / avg_hispanic_population_2017_2023) * 100000
+
+incident_rate_total_2010_2016 <- (incidents_total_2010_2016 / avg_total_population_2010_2016) * 100000
+incident_rate_total_2017_2023 <- (incidents_total_2017_2023 / avg_total_population_2017_2023) * 100000
+
+# Create a data frame to store incident rates
+incident_rates <- data.frame(
+  Group = c("Black Population", "Hispanic Population", "Total Population"),
+  `2010-2016 Incident Rate (per 100,000)` = c(incident_rate_black_2010_2016, incident_rate_hispanic_2010_2016, incident_rate_total_2010_2016),
+  `2017-2023 Incident Rate (per 100,000)` = c(incident_rate_black_2017_2023, incident_rate_hispanic_2017_2023, incident_rate_total_2017_2023)
+)
+
+# Print the incident rates data frame
+#print(incident_rates)
+
+# Title for the table
+incident_title <- "Incident Rates by Population Group"
+#cat("\n", incident_title, "\n")
+
+# Display the table in a formatted manner
+kable(incident_rates, caption = incident_title)
 
 ```
-The bar graph displays the distribution of incidence rates for early-onset gastric cancer across different groups (e.g., Hispanic, African American, Born in the US, etc.) and time periods (2010-2016 and 2017-2023).
-The x-axis represents the incidence rates, while the y-axis shows the frequency (the number of cases within each incidence rate range).
+```{r, echo=FALSE}
+# Create the data frame for incident rates with cleaned column names
+incident_rates <- data.frame(
+  Group = c("Black Population", "Hispanic Population", "Total Population"),
+  X2010_2016_Incident_Rate = c(2.311903, 4.794794, 2.452905),
+  X2017_2023_Incident_Rate = c(0.8290932, 5.0765229, 2.3974690)
+)
+
+# Reshape the data for plotting
+incident_rates_long <- gather(incident_rates, key = "Time_Period", value = "Incident_Rate", 
+                              X2010_2016_Incident_Rate, X2017_2023_Incident_Rate)
+
+ggplot(incident_rates_long, aes(x = Group, y = Incident_Rate, fill = Time_Period)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.4) +
+  labs(
+    title = "Incident Rates by Population Group",
+    y = "Incident Rate (per 100,000)",
+    x = "Population Group",
+    fill = "Time Period"
+  ) +
+  scale_fill_manual(
+    values = c("X2010_2016_Incident_Rate" = "skyblue", "X2017_2023_Incident_Rate" = "orange"),
+    labels = c("2010-2016", "2017-2023")
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 10)
+  )
+
+```
+
+The bar graph displays the distribution of incidence rates for early-onset gastric cancer across different groups (Hispanic, African American, Total) and time periods (2010-2016 and 2017-2023).
 The color coding differentiates between the groups, and the facet grids separate the data by time period.
 From this graph, you can compare how the incidence rate of early-onset gastric cancer varies across different groups and time periods, looking for any notable differences or trends.
 
 ```{r, echo=FALSE}
-# Prepare a dataset that includes the group counts for each group and time period
-group_counts <- data.frame(
-  Group = c("Hispanic", "Hispanic", "African American", "African American", 
-            "Born in the US", "Born in the US", "Born outside the US", "Born outside the US"),
-  TimePeriod = c("2010-2016", "2017-2023", "2010-2016", "2017-2023", 
-                 "2010-2016", "2017-2023", "2010-2016", "2017-2023"),
-  IncidenceRate = c(0.20, 0.80, 0.71, 0.29, 0.67, 0.33, 0.47, 0.53),
-  Count = c(10, 4, 8, 5, 40, 34, 4, 16)  # Assuming these are the group counts
+# Reshape the population data for merging
+estimated_at_risk_population_avg_long <- gather(estimated_at_risk_population_avg,
+                                                 key = "Time_Period", value = "Population_Avg", 
+                                                 X2010.2016.Average, X2017.2023.Average)
+
+# Standardize the 'Group' names in 'estimated_at_risk_population_avg_long'
+estimated_at_risk_population_avg_long$Group <- gsub("Total At-Risk Population", "Total Population", 
+                                                     estimated_at_risk_population_avg_long$Group)
+
+# Standardize the 'Time_Period' names in both data frames
+estimated_at_risk_population_avg_long$Time_Period <- gsub("X2010.2016.Average", "X2010_2016_Incident_Rate", 
+                                                           estimated_at_risk_population_avg_long$Time_Period)
+estimated_at_risk_population_avg_long$Time_Period <- gsub("X2017.2023.Average", "X2017_2023_Incident_Rate", 
+                                                           estimated_at_risk_population_avg_long$Time_Period)
+# Now merge the two data frames
+bubble_data <- merge(estimated_at_risk_population_avg_long, incident_rates_long, 
+                     by = c("Group", "Time_Period"))
+
+# Check the merged data (optional but recommended for debugging)
+#head(bubble_data)
+
+# Create a nicer label for Time_Period
+time_period_labels <- c(
+  "X2010_2016_Incident_Rate" = "2010-2016",
+  "X2017_2023_Incident_Rate" = "2017-2023"
 )
 
-# Create a scatter plot with point size indicating the count
-ggplot(group_counts, aes(x = interaction(Group, TimePeriod), y = IncidenceRate, size = Count, color = Count)) +
-  geom_point() +
-  geom_text(aes(label = Group), vjust = -1, size = 3) +  # Place group names above the points
-  labs(
-    x = "Group and Time Period",
-    y = "Incidence Rate",
-    title = "Incidence Rates by Group and Time Period with Group Names",
-    subtitle = "Point size/color represents the count of individuals"
-  ) +
-  scale_size_continuous(name = "Count") +
-  scale_color_continuous(name = "Count") +
+bubble_plot <- ggplot(bubble_data, aes(x = Population_Avg, y = Incident_Rate, 
+                                       size = Population_Avg, color = Group)) +
+  geom_point(alpha = 0.7) +
+  facet_wrap(~ Time_Period, scales = "free_y", labeller = as_labeller(time_period_labels)) +  # Apply nicer labels
+  scale_size_continuous(range = c(5, 15)) +  # Adjust bubble size range
+  labs(title = "Bubble Plot of Population Averages and Incident Rates",
+       x = "Population Average",
+       y = "Incident Rate",
+       size = "Population Size",
+       color = "Group") +
+  coord_cartesian(ylim = c(-1, 7)) +  # Using coord_cartesian to avoid clipping
+  xlim(425000, 3025000) +  # Adjust x limits
   theme_minimal() +
-  theme(axis.text.x = element_blank())  # Remove x-axis labels
+  theme(
+    legend.position = "top",    # Place the legend on top
+    legend.box = "vertical",    # Stack legend items vertically
+    legend.margin = margin(0, 0, 10, 0),  # Adjust margin between legend and plot
+    legend.key.size = unit(0.5, "cm"),    # Reduce the size of the legend keys
+    plot.margin = margin(10, 10, 50, 10),  # Adjust bottom margin
+    legend.text = element_text(size = 8),  # Reduce font size of legend text
+    legend.title = element_text(size = 10)  # Reduce font size of legend title
+  )
 
-
-
-```
-Each point represents a group-time combination (e.g., "Hispanic 2010-2016").
-The size and color of each point reflect the number of individuals in that group-time period, so larger and more intense points show higher counts.
-The y-axis shows the incidence rate, helping to visualize how it varies across different groups and time periods.
-
-
-```{r, echo=FALSE}
-#resubset
-# Create 'Group' variable based on the available data
-data$Group <- ifelse(data$Hispanic == 1, "Hispanic", 
-                     ifelse(data$African.American == 1, "African American",
-                            ifelse(data$Born.In.US == 1, "Born in the US", 
-                                   "Born outside the US")))
-# Create 'TimePeriod' variable based on year of diagnosis
-data$TimePeriod <- ifelse(data$Year.of.Diagnosis >= 2010 & data$Year.of.Diagnosis <= 2016, 
-                           "2010-2016", 
-                           ifelse(data$Year.of.Diagnosis >= 2017 & data$Year.of.Diagnosis <= 2023, 
-                                  "2017-2023", NA))
+# Display the plot
+print(bubble_plot)
 
 ```
+This bubble plot visualizes the relationship between population averages and incident rates for different groups (Black, Hispanic, and Total Population) across two time periods: 2010-2016 and 2017-2023. The size of each bubble corresponds to the population average, while the y-axis represents the incident rate, with the data split by time period to highlight trends over time.
+
 
 Descriptive Statistics
-```{r, echo=FALSE}
-table(data$Group, data$TimePeriod)
-```
-```{r, echo=FALSE}
-# Initialize a summary table for descriptive statistics
-desc_stats <- data.frame(
-  Group = rep(groups, each = length(time_periods)),
-  TimePeriod = rep(time_periods, times = length(groups)),
-  Mean = NA,
-  Median = NA,
-  SD = NA,
-  Min = NA,
-  Max = NA,
-  IQR = NA
-)
 
-# Calculate statistics for each group and time period
-for(group in groups) {
-  for(period in time_periods) {
-    group_data <- subset(incidence_data, Group == group & TimePeriod == period)$IncidenceRate
-    desc_stats$Mean[desc_stats$Group == group & desc_stats$TimePeriod == period] <- mean(group_data, na.rm = TRUE)
-    desc_stats$Median[desc_stats$Group == group & desc_stats$TimePeriod == period] <- median(group_data, na.rm = TRUE)
-    desc_stats$SD[desc_stats$Group == group & desc_stats$TimePeriod == period] <- sd(group_data, na.rm = TRUE)
-    desc_stats$Min[desc_stats$Group == group & desc_stats$TimePeriod == period] <- min(group_data, na.rm = TRUE)
-    desc_stats$Max[desc_stats$Group == group & desc_stats$TimePeriod == period] <- max(group_data, na.rm = TRUE)
-    desc_stats$IQR[desc_stats$Group == group & desc_stats$TimePeriod == period] <- IQR(group_data, na.rm = TRUE)
-  }
-}
+```{r, echo=FALSE}
+# One-way ANOVA for comparing incident rates across groups and time periods
+anova_results <- aov(Incident_Rate ~ Group * Time_Period, data = incident_rates_long)
 
-# View the descriptive statistics
-print(desc_stats)
+# Summarize the ANOVA results and print as a table
+anova_summary <- summary(anova_results)
+anova_summary_table <- as.data.frame(anova_summary[[1]])  # Extracting ANOVA summary and converting to data frame
+kable(anova_summary_table, caption = "ANOVA Summary for Incident Rates across Groups and Time Periods")
+
+# Calculate percentage change for each group in incident_rates dataframe
+incident_rates_wide <- incident_rates_long %>%
+  spread(Time_Period, Incident_Rate) %>%
+  mutate(
+    Percent_Change = (`X2017_2023_Incident_Rate` - `X2010_2016_Incident_Rate`) /
+                     `X2010_2016_Incident_Rate` * 100
+  )
+
+# View the results and print as a nice table using kable
+kable(incident_rates_wide, caption = "Incident Rates and Percent Change by Group")
 
 ```
-Hispanic: In the time period from 2010-2016, the incidence rate is 0.20, and in 2017-2023, it increases to 0.80. This suggests a significant rise in the incidence rate among the Hispanic group over the two time periods.
-African American: The incidence rate for 2010-2016 is 0.71, which decreases to 0.29 in 2017-2023. This indicates a decline in the incidence rate for African Americans in the second time period.
-Born in the US: For individuals Born in the US, the incidence rate is 0.67 in 2010-2016 and drops to 0.33 in 2017-2023, showing a decrease in incidence over time.
-Born outside the US: For individuals Born outside the US, the incidence rate is 0.47 in 2010-2016, and slightly increases to 0.53 in 2017-2023, showing a slight upward trend in the incidence rate.
+Descriptive Statistics Overview:
+Summary of ANOVA Results:
+The ANOVA analysis evaluated the effects of Group, Time_Period, and their interaction on the incident rates. The results indicated that neither the Group factor nor the Time_Period factor had a statistically significant impact on incident rates. Additionally, there was no significant interaction between these factors (all p-values greater than 0.05). This suggests that incident rates did not vary meaningfully by group or time period across the populations studied.
 
-Mean and Median: The mean and median values are identical for all groups and time periods because oof the small sample size.
-Standard Deviation: The standard deviation is not available (NA) due to the lack of variation in each group. There is only one data point in each group, so the variance (and standard deviation) cannot be computed.
-Min and Max: The minimum and maximum values are the same for each group and time period since there's only one data point, and thus no range of values.
-Interquartile Range (IQR): The IQR is 0 for all groups, as the data does not have enough variability to produce an interquartile range.
+Summary of Percent Change in Incident Rates:
+The percent change in incident rates between the periods 2010-2016 and 2017-2023 revealed different trends across groups:
 
-The table shows that the Hispanic group experienced a substantial increase in incidence from 2010-2016 to 2017-2023, while the African American and Born in the US groups saw a decline.
-The Born outside the US group shows a slight increase in incidence, but the change is minimal.
-The small sample size (only one data point per group and time period) prevents more detailed analysis, such as calculating variability (SD) or conducting more sophisticated statistical tests
+Black Population experienced a significant decrease in incident rates, with a 64.14% reduction.
+Hispanic Population showed a modest 5.88% increase in incident rates.
+Total Population saw a slight 2.26% decrease in incident rates. These changes suggest varying trends, but they were not statistically significant in the ANOVA analysis.
 
-Thus, while we can describe trends between groups and time periods, we cannot assess the variability or statistical significance due to the size limitations of the dataset. Further data collection would be necessary to gain valuable deeper insights into these trends.
+Sources of Error:
+However, the analysis is limited by the small sample size which prevents any meaningful computation of variability or statistical significance. Consequently, while we can describe the trends in incidence rates, further data collection is required to assess the true variability and test for statistical significance. This would provide a deeper and more reliable understanding of the trends observed across different demographic groups. 
+
+A source of error may be in the average population estimation. Population data for the at-risk age range was not widely available, so the age range 20-54 was used to calculate the estimates, as that was the closest age range available. Population data for 2020 was not available, making the average for the 2017-2023 age range less strong of an average. 
 
 
 
