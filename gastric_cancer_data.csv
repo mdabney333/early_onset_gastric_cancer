@@ -1,0 +1,122 @@
+﻿Year of Diagnosis,Age at Diagnosis,Sex,Race 1,Spanish/Hispanic Origin,BMI (kg/m²),Born in Vs Out of US,Family history of Cancer (Y/N),Family history of Gastric cancer (Y/N),Known hx H. Pylori Infection,Alcohol Abuse,Tobacco Use,Symptomatic on Presentation,Tumor Location (2 or more),Differentiation,Stage at Dx,Evidence of Lymphovascular Invasion at Dx,GOO Requiring Intervention (stent/bypass/tube)?(Y/N),Surgical Resection? (Y/N),Recurrent Cancer after Surgical Intervention? (Y/N),Length of Survival (5 year),Transition to Comfort Care/Palliative-only/Hospice?
+2010,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",36.4,In,N,N,Y,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2010,33,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",25.4,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2010,33,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",24.3,In,Unknown,Unknown,N,0,0,Y,2 or more,Moderately-to-Poorly Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2010,47,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,44,In,Y,Y,Y,0,0,Y,Body,Moderately-to-Poorly Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2010,50,1  Male,"96  Other Asian, including Asian, NOS",0  Non-Spanish; non-Hispanic,22.8,Out,Unknown,N,Y,0,2,Y,Antrum,Poorly Differentiated,Stage 1,Unknown,Y,N,N/A,1,N
+2010,49,2 Female,01  White,0  Non-Spanish; non-Hispanic,30.87,In,Y ,N,Y,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,Unknown,Unknown
+2010,36,1  Male,"96  Other Asian, including Asian, NOS",0  Non-Spanish; non-Hispanic,23.78,Out,Unknown,Unknown,N,0,2,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,Y
+2011,33,2  Female,01  White,1  Mexican (includes Chicano),21.1,Out,N,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1 ,Y
+2011,47,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.5,Out,Y,Y,N,2,1,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,Y
+2011,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.67,Out,N,N,N,1,2,Y,Antrum,Poorly Differentiated,Stage 3,N,N,Y,Y,Unknown,Y
+2011,50,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.9,Out,N,N,Y,0,0,Y,Pylorus,Moderately differentiated ,Stage 2,Y,Y,Y,N,4,Y
+2011,44,2  Female,01  White,1  Mexican (includes Chicano),31.71,Out,N,N,N,0,0,Y,Antrum,Unknown,Stage 4,Y,N,N,N/A,2,Y
+2011,33,2  Female,01  White,4  South or Central American (except Brazil),17.08,Out,N,N,Unknown,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2011,37,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",32.98,Out,N,N,Y,0,0,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,5+,Y
+2012,49,1  Male,01  White,4  South or Central American (except Brazil),24.12,Unknown,Y,N,Y,2,0,Y,2 or more,Poorly Differentiated,Stage 1,Y,N,Y,Unknown,5+,N
+2012,34,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",23.03,Out,N,N,N,0,0,Y,Antrum,Well Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2012,47,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",23.67,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,Y,N,5+ ,N
+2012,42,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.78,Out,N,N,Y,0,0,Y,Body,Poorly Differentiated,Stage 1,N,Y,Y,N/A,5+ ,N
+2012,42,1  Male,01  White,0  Non-Spanish; non-Hispanic,18.37,In,Unknown,Unknown,N,0,1,Y,Antrum,Poorly Differentiated,Stage 1,N,N,Y,N/A,1,N
+2012,37,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",20.3,Out,N,N,N,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,4,N
+2013,43,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.8,Out,Y ,N,N,0,2,Y,Antrum ,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,Y
+2013,43,2  Female,16  Asian Indian,0  Non-Spanish; non-Hispanic,21.7,Out,Unknown,Unknown,N,0,0,Y,Antrum ,Moderately-to-Poorly Differentiated,Stage 4,Y,N,N,N/A,<1 ,Y
+2013,44,2  Female,01  White,0  Non-Spanish; non-Hispanic,35.9,In,N,N,N,0,0,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2013,47,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",19.2,Out,Unknown,Unknown,N,1,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2013,49,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",36.6,Out,Y ,Y,Y,0,0,Y,Antrum,Poorly Differentiated,Stage 2,Y,Y,Y,N,Unknown,N
+2013,33,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",23.95,Out,Y ,Unknown,N,0,0,Y,Fundus ,Poorly Differentiated,Stage 4,Y ,N,N,N/A,<1 ,Y
+2013,39,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",24.9,Out,Unknown,Unknown,Y,2,0,Y,Antrum,Moderately-to-Poorly differentiated ,Stage 4 ,Y,N,N,N/A,<1 ,N
+2013,40,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,21,In,N,N,Y,2,2,Y,2 or more,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,<1,Y
+2013,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",39.26,In,Y ,Unknown,N,2,1,Y,Body,Poorly Differentiated,Stage 2,N,N,Y,N,5+,N 
+2014,50,1  Male,10  Vietnamese,0  Non-Spanish; non-Hispanic,23.71,Out,Y,N,N,0,1,Y,2 or more,Moderately-to-Poorly differentiated ,Stage 4 ,Y,Y,N,N/A,1,Y
+2014,37,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,23.85,In,Y ,N,Y,0,1,Y,Antrum,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,Y
+2014,43,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",39.5,Out,N,N,Unknown,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2014,46,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27,Out,Y ,N,Y,1,0,Y,2 or more,Well-to-moderately differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2014,27,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.18,Out,N,N,Unknown,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2014,42,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,28.78,Out,Y ,N,N,0,0,Y,2 or more,Well Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2014,50,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27.79,Out,Y ,N,Y,0,0,Y,Fundus,Moderately differentiated ,Stage 2,Y,N,Y,N,5+,N
+2014,48,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,33.05,In,N,N,Unknown,0,2,Y,2 or more,Poorly Differentiated,Stage 4 ,Y ,N,N,N/A,<1,Y
+2014,47,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",24.14,Out,N,N,Y,0,0,Y,Body,Poorly Differentiated,Stage 2,Y,N,Y,N,5+,N
+2014,47,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.79,Out,N,N,Y,0,0,Y,Antrum,Poorly Differentiated,Stage 4 ,Y,Y,N,N/A,2,Y
+2014,45,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.94,Out,N,N,N,0,0,Y,Body,Moderately-to-Poorly differentiated ,Stage 4 ,Y,N,N,N/A,<1,Y
+2014,32,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",34.37,In,N,N,N,0,2,Y,Body,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,1,Y
+2014,49,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",29.26,Out,N,N,Y,0,0,N,Body,Well Differentiated,Stage 4 ,Y,N,N,N/A,1,Y
+2014,38,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,13.29,In,Y,Y,Unknown,0,0,Y,2 or more,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,<1,Y
+2014,33,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",32.35,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,N
+2015,39,2  Female,01  White,0  Non-Spanish; non-Hispanic,24.36,Out,N,N,N,0,2,Y,Antrum,Well Differentiated,Stage 3,Y,N,Y,Y,2,N
+2015,50,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,25.31,In,N,N,N,1,1,Y,Fundus,Moderately Differentiated,Stage 4,Y,N,N,N/A,<1,N
+2015,46,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",30.81,Out,Y,N,Y,0,0,Y,2 or more,Moderately Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2015,44,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,29,In,Y,N,Unknown,0,0,Y,2 or more,Unknown,Stage 4,Y,N,N ,N/A,<1,Y
+2015,44,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.29,Out,N,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,N 
+2015,45,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",24,Out,N,N,Y,0,1,Y,2 or more,Unknown,Stage 4,Y,N,N,N/A,2,Y
+2015,20,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.03,Out,Y,N,Y,0,2,Y,Antrum,Poorly Differentiated,Stage 2,Y,N,Y,N,5+,N
+2015,48,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.04,Out,Y,N,Y,0,2,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2016,42,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",23.1,Unknown,N,N,N,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2016,45,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,21.42,In,Y,N,Y,0,1,Y,2 or more,Moderately-to-Poorly differentiated ,Stage 3,N,N,Y,N,5+,N
+2016,49,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",32.35,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2016,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",20.76,Out,N,N,N,2,2,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2016,30,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,16.83,Out,Y,N,Unknown,0,0,Y,Unspecified,Unknown,Stage 4,Y,N,N,N/A,<1,N
+2016,47,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.66,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 1,N,N,Y,Y,5+,N
+2016,32,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",22.98,Out,Y,Y,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2016,29,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",39.72,Out,N,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2016,20,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",19.39,In,N,N,N,0,0,Y,2 or more,Moderately-to-Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2016,32,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27.75,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2017,45,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,31.4,In,N,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 2,Y,N,Y,Y,3,Y
+2017,44,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",30.67,Out,Y,Y,Y,0,2,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2017,47,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",23.49,In,Y,Y,Y,0,0,Y,Antrum,Poorly Differentiated,Stage 4 ,Y,Y,N,N/A,<1,Y
+2017,40,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.48,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 2,Y,N,Y,N,5+,N
+2017,27,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.29,Out,N,N,N,0,0,Y,2 or more,Moderately Differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2017,40,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.73,Out,N,N,Unknown,2,0,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2017,33,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.9,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2018,36,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",20.66,Out,N,N,N,0,0,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,<1,Y
+2018,41,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",31.11,Out,N,N,Unknown,0,0,Y,Body,Poorly differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2018,30,1  Male,01  White,4  South or Central American (except Brazil),28.42,Out,Y,Y,Y,0,0,Y,Fundus,Poorly differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2018,43,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,34.14,In,Unknown,N,N,0,0,Y,2 or more,Poorly differentiated,Stage 4,Y,Y,N,N/A,<1 ,Y
+2018,34,2  Female,01  White,4  South or Central American (except Brazil),22.23,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,2,Y
+2018,38,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",22.1,In,N,N,Unknown,0,0,Y,Body,Moderately Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2018,48,2  Female,01  White,1  Mexican (includes Chicano),23.63,Out,N,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,2,Y
+2018,35,2  Female,01  White,1  Mexican (includes Chicano),16.03,Out,N,N,Unknown,0,0,Y,Body,Unknown,Stage 4,Y,Y,N,N/A,<1,Y
+2018,40,2  Female,01  White,1  Mexican (includes Chicano),21.9,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,2,Y
+2018,29,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",31.09,In,Y,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2018,38,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",17.63,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2019,43,2  Female,98  Some other race,0  Non-Spanish; non-Hispanic,29.49,Unknown,Y,N,Unknown,0,0,Y,Body,Poorly Differentiated,Stage 4,Y,N,N,N/A,3,Y
+2019,47,1  Male,01  White,1  Mexican (includes Chicano),27.21,Out,Y,Unknown ,N,0,2,Y,Body,Poorly Differentiated,Stage 3,N,N,Y,N,5+,N
+2019,42,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",22.49,Out,N,N,N,0,0,Y,2 or more,Poorly Differentiated,Stage 3,Y,N,Y,Y,2,Y
+2019,49,2  Female,01  White,1  Mexican (includes Chicano),32.19,Out,N,N,Y,0,1,Y,Antrum,Poorly differentiated,Stage 3,Y,Y,Y,Y,3,Y
+2019,33,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",20.18,Out,N,N,Y,0,0,Y,2 or more,poorly differentiated ,Stage 3,N,Y,Y,Y,1,Y
+2019,41,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",29.21,Out,Y,Unknown ,N,1,1,Y,2 or more,poorly differentiated ,Stage 4,Y ,N,N,N/A,<1,Y
+2019,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.03,Out,Y,N,Y,1,1,Y,2 or more,Poorly differentiated ,Stage 4,Y,N,N,N/A,1,Y
+2019,41,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",16.54,Unknown,N,N,Y,0,0,Y,Body,Poorly cohesive ,Stage 4,Y,Unknown,Unknown,Unknown,1,Unknown
+2019,43,1  Male,01  White,4  South or Central American (except Brazil),28.05,Out,N,N,N,0,0,Y,2 or more,Poorly differentiated ,Stage 4,Y,N,N,N/A,Unknown,Unknown
+2019,35,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.09,Unknown,Y,Unknown,N,0,0,Y,2 or more,Poorly differentiated ,Stage 4,Y,N,N,N/A,1,N
+2020,45,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27.51,Out,Y,N,N,0,1,Y,Antrum,Poorly Differentiated,Stage 4,Y,N,N,N/A,1,Y
+2020,42,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",25.42,Out,N,N,N,0,0,Y,Fundus,Poorly Differentiated,Stage 3,Y,N,Y,Y,4,Y
+2020,47,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",36.91,Out,N,N,N,0,0,Y,Antrum,Poorly Differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2020,33,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",24.87,Out,Y,N,Y,0,0,Y,2 or more,Poorly Differentiated,Stage 4,Y,Y,N,N/A,3,Y
+2020,50,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.73,Out,N,N,N,0,0,Y,Body,Poorly differentiated,Stage 4,Y,N,N,N/A,1,Y
+2020,35,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",29.99,Out,N,N,N,0,0,Y,Antrum,Poorly differentiated ,Stage 3,Y,N,Y,N/A ,3,N
+2021,43,2  Female,01  White,4  South or Central American (except Brazil),43.94,Out,N,N,Y,0,0,Y,Antrum,Poorly differentiated,Stage 4,Y,N,N,N/A,1,Y
+2021,37,2  Female,01  White,4  South or Central American (except Brazil),17,Out,Unknown,N,N,0,0,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N/A,<1,Y
+2021,40,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.53,Out,N,N,Y,1,2,Y,2 or more,Poorly differentiated,Stage 4,Y,Y,N,N/A,1,Y
+2021,44,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",21.91,Out,Y,N,Unknown,Unknown,Unknown,Y,Unspecified,Unknown,Stage 4 ,Y,N,N,N/A,1,Y
+2021,46,1  Male,01  White,1  Mexican (includes Chicano),29.53,Out,N,N,Unknown,2,2,Y,Unspecified,Unknown,Stage 4,Y,Y,N,N/A,1,N
+2021,45,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27.74,Out,N,N,Y,2,0,Y,2 or more,Poorly Differentiated,Stage 4 ,Y,N,N,N/A,Alive,N
+2021,46,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",34.6,Out,N,N,N,2,0,Y,Body,Unknown,Unknown,Y,Y,N,N/A,2,Y
+2022,42,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",28.71,Out,N,N,N,0,0,Y,Body,Poorly differentiated,Stage 1,N,N,Y,N,Alive (2+),N
+2022,36,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",30.99,Out,N,N,N,0,0,Y,Body,Poorly differentiated,Stage 1,N,N,Y,Y,Alive (2+),N
+2022,36,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",27.5,Out,N,N,Y,1,0,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N,Alive (2+),N
+2022,48,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.21,In,N,N,Y,0,0,Y,Body,Poorly differntiated,Stage 4,Y,N,N,N,<1,Y
+2022,45,2  Female,02  Black or African American,0  Non-Spanish; non-Hispanic,26.9,Unknown,Y,N,Y,2,0,Y,Body,Poorly differentiated,Stage 4 ,Y,N,N,N,Alive (2+),N
+2023,49,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",22.96,Out,Y,N,Y,2,0,Y,2 or more,Poorly differentiated,Stage 4,Y,Y,N,N,Alive (1+),N
+2023,36,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",20.3,Out,N,N,Y,2,2,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N,<1,Y
+2023,38,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",19.53,In,Y,N,Y,0,0,Y,Unspecified,Poorly dfferentiated,Stage 4,Y,N,N,N,<1,Y
+2023,32,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",30.86,Out,N,N,Y,1,0,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N,<1,N
+2023,43,1  Male,01  White,1  Mexican (includes Chicano),19.2,Out,N,N,N,0,0,Y,2 or more,poorly cohesive ,Stage 4,Y,N,N,N/A,Alive (1),Y
+2023,36,1  Male,01  White,1  Mexican (includes Chicano),28.32,Out,N,N,Y,0,0,Y,Antrum,Poorly differentiated,Stage 4 ,Y,N,N,N/A,Alive (1),N
+2023,38,2  Female,01  White,0  Non-Spanish; non-Hispanic,25.32,Out,Y,Unknown,N,0,0,Y,2 or more,Poorly differentiated,Stage 4 ,Y,Y,Y,N ,Alive (1),N
+2023,32,2  Female,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",22.83,Out,Y ,Y,N,0,0,Y,Antrum,poorly cohesive ,Stage 2,Y,Y,Y,Y,Alive (1),N
+2023,37,2  Female,01  White,1  Mexican (includes Chicano),31.96,Out,Y,Y,Y,0,2,Y,Body,Moderately differentiated,Stage 4 ,Y,N,N,N/A,Alive (1),N
+2023,38,1  Male,01  White,4  South or Central American (except Brazil),27.33,Out,N,N,Y,0,0,Y,Body,Poorly differentiated,Stage 4 ,Y,N,N,N/A,Unknown,Unknown
+2023,32,1  Male,98  Some other race,4  South or Central American (except Brazil),25.47,Out,Y,N,N,0,0,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N/A,Alive (1),N
+2023,42,1  Male,02  Black or African American,0  Non-Spanish; non-Hispanic,21.9,In,N,N,Y,0,2,Y,2 or more,Poorly differentiated,Stage 4,Y,N,N,N/A,1,N
+2023,41,1  Male,01  White,"6  Spanish, NOS; Hispanic, NOS; Latino, NOS",26.65,Out,N,N,Y,0,2,Y,Unspecified,Poorly differentiated,Stage 4,Y,N,N,N/A,Alive (1),N

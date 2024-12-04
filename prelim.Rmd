@@ -1,0 +1,261 @@
+---
+title: "Preliminary Early Onset Gastric Cancer Analysis"
+author: "Madeline Dabney"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(skimr)
+library(janitor)
+library(dplyr)
+library(forcats)
+```
+
+```{r, echo=FALSE}
+data <- read.csv('gastric_cancer_data.csv', stringsAsFactors = TRUE, na.strings = c("", "N/A", "NA"))
+```
+
+```{r, echo=FALSE, warning=FALSE}
+#data cleaning
+data <- data %>%
+  mutate(across(where(is.factor), ~ fct_recode(
+    factor(trimws(.x)), 
+    "N/A" = "N/A ", 
+    "N" = "N ", 
+    "Y" = "Y "
+  )))
+
+data <- data %>%
+  mutate(across(where(is.factor), ~ fct_recode(.x,
+    `Male` = "1  Male", `Female` = "2 Female", `Female` = "2  Female",
+    `White` = "01  White", `Black or African American` = "02  Black or African American",
+    `Vietnamese` = "10  Vietnamese", `Asian Indian` = "16  Asian Indian",
+    `Other Asian` = "96  Other Asian, including Asian, NOS", `Some other race` = "98  Some other race",
+    `Non-Spanish` = "0  Non-Spanish; non-Hispanic", `Mexican` = "1  Mexican (includes Chicano)",
+    `South or Central American` = "4  South or Central American (except Brazil)",
+    `Spanish` = "6  Spanish, NOS; Hispanic, NOS; Latino, NOS",
+    `In` = "In", `Out` = "Out", `Unknown` = "Unknown",
+    `Moderately Differentiated` = "Moderately differentiated", `Moderately-to-Poorly Differentiated` = "Moderately-to-Poorly differentiated",
+    `Poorly Cohesive` = "poorly cohesive", `Poorly Differentiated` = "Poorly differentiated",
+    `Well Differentiated` = "Well Differentiated", `Unknown` = "Unknown",
+    `Stage 1` = "Stage 1", `Stage 2` = "Stage 2", `Stage 3` = "Stage 3", `Stage 4` = "Stage 4",
+    `Alive` = "Alive (1)", `Alive (1+)` = "Alive (1+)", `Alive (2+)` = "Alive (2+)"
+  )))
+
+data$Length.of.Survival..5.year. <- as.factor(data$Length.of.Survival..5.year.)
+
+data$Length.of.Survival..5.year. <- as.character(data$Length.of.Survival..5.year.)
+
+data$Length.of.Survival..5.year. <- recode(data$Length.of.Survival..5.year.,
+  "<1" = "0", 
+  "1" = "1", 
+  "2" = "2", 
+  "3" = "3", 
+  "4" = "4", 
+  "5+" = "5", 
+  "Alive" = "5", 
+  "Alive (1+)" = "1", 
+  "Alive (2+)" = "2", 
+  "Unknown" = NA_character_)
+
+data$Length.of.Survival..5.year. <- factor(data$Length.of.Survival..5.year., 
+                                            levels = c("0", "1", "2", "3", "4", "5"), 
+                                            labels = c("0", "1", "2", "3", "4", "5"))
+
+```
+
+```{r, echo=FALSE}
+#start subsetting
+# Assuming 'Year.of.Diagnosis' is a numeric variable
+data$Time.Period <- ifelse(data$Year.of.Diagnosis >= 2010 & data$Year.of.Diagnosis <= 2016, "2010-2016", 
+                           ifelse(data$Year.of.Diagnosis >= 2017 & data$Year.of.Diagnosis <= 2023, "2017-2023", NA))
+```
+```{r, echo=FALSE}
+# Recode Hispanic status based on 'Spanish.Hispanic.Origin'
+data$Hispanic <- ifelse(data$Spanish.Hispanic.Origin %in% c("Mexican", "South or Central American"), 1, 0)
+
+# Recode African American status based on 'Race.1'
+data$African.American <- ifelse(data$Race.1 == "Black or African American", 1, 0)
+
+# Recode Born in US status based on 'Born.in.Vs.Out.of.US'
+data$Born.In.US <- ifelse(data$Born.in.Vs.Out.of.US == "In", 1, 0)
+
+```
+
+```{r, echo=FALSE}
+# Calculate the incidence rate for each group in each time period
+# We will calculate the proportion of cases in each group for the two time periods
+
+# Number of cases in each group by time period
+table_2010_2016 <- table(data$Group[data$Time.Period == "2010-2016"])
+table_2017_2023 <- table(data$Group[data$Time.Period == "2017-2023"])
+
+# Total number of cases in each group for the whole period (to calculate the occurrence rate)
+total_cases <- table(data$Group)
+
+# Calculate the incidence rate (proportion) in each group for the two time periods
+rate_2010_2016 <- table_2010_2016 / total_cases
+rate_2017_2023 <- table_2017_2023 / total_cases
+
+```
+
+```{r, echo=FALSE}
+# Define groups and time periods
+groups <- c("Hispanic", "African.American", "Born.In.US", "Born.outside.US", "Everyone")  
+time_periods <- c("2010-2016", "2017-2023")
+
+# Initialize empty data frame for incidence rates
+incidence_data <- data.frame(Group = character(), TimePeriod = character(), IncidenceRate = numeric())
+
+# Calculate the incidence rate for each group and time period
+for(group in groups) {
+  for(period in time_periods) {
+    # For Born.outside.US, the filter needs to check for 'Born.In.US' being 0
+    group_data <- if (group == "Born.outside.US") {
+      data[data$Born.In.US == 0 & data$Time.Period == period, ]
+    } else {
+      data[data[[group]] == 1 & data$Time.Period == period, ]
+    }
+    
+    total_group_data <- if (group == "Born.outside.US") {
+      data[data$Born.In.US == 0, ]
+    } else {
+      data[data[[group]] == 1, ]
+    }
+    
+    # Calculate incidence rate: proportion of group cases in the time period
+    rate <- nrow(group_data) / nrow(total_group_data)
+    
+    # Append the result to the dataframe
+    incidence_data <- rbind(incidence_data, data.frame(Group = group, TimePeriod = period, IncidenceRate = rate))
+  }
+}
+
+# Add data for 'Everyone' group (if needed)
+for(period in time_periods) {
+  group_data <- data[data$Time.Period == period, ]
+  total_group_data <- data
+  rate <- nrow(group_data) / nrow(total_group_data)
+  incidence_data <- rbind(incidence_data, data.frame(Group = "Everyone", TimePeriod = period, IncidenceRate = rate))
+}
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Plot the incidence rates
+ggplot(incidence_data, aes(x = Group, y = IncidenceRate, fill = TimePeriod)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Incidence Rate of Early-Onset Gastric Cancer by Group and Time Period",
+       x = "Group", y = "Incidence Rate") +
+  theme_minimal()
+
+```
+The bar graph displays the distribution of incidence rates for early-onset gastric cancer across different groups (e.g., Hispanic, African American, Born in the US, etc.) and time periods (2010-2016 and 2017-2023).
+The x-axis represents the incidence rates, while the y-axis shows the frequency (the number of cases within each incidence rate range).
+The color coding differentiates between the groups, and the facet grids separate the data by time period.
+From this graph, you can compare how the incidence rate of early-onset gastric cancer varies across different groups and time periods, looking for any notable differences or trends.
+
+```{r, echo=FALSE}
+# Prepare a dataset that includes the group counts for each group and time period
+group_counts <- data.frame(
+  Group = c("Hispanic", "Hispanic", "African American", "African American", 
+            "Born in the US", "Born in the US", "Born outside the US", "Born outside the US"),
+  TimePeriod = c("2010-2016", "2017-2023", "2010-2016", "2017-2023", 
+                 "2010-2016", "2017-2023", "2010-2016", "2017-2023"),
+  IncidenceRate = c(0.20, 0.80, 0.71, 0.29, 0.67, 0.33, 0.47, 0.53),
+  Count = c(10, 4, 8, 5, 40, 34, 4, 16)  # Assuming these are the group counts
+)
+
+# Create a scatter plot with point size indicating the count
+ggplot(group_counts, aes(x = interaction(Group, TimePeriod), y = IncidenceRate, size = Count, color = Count)) +
+  geom_point() +
+  geom_text(aes(label = Group), vjust = -1, size = 3) +  # Place group names above the points
+  labs(
+    x = "Group and Time Period",
+    y = "Incidence Rate",
+    title = "Incidence Rates by Group and Time Period with Group Names",
+    subtitle = "Point size/color represents the count of individuals"
+  ) +
+  scale_size_continuous(name = "Count") +
+  scale_color_continuous(name = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank())  # Remove x-axis labels
+
+
+
+```
+Each point represents a group-time combination (e.g., "Hispanic 2010-2016").
+The size and color of each point reflect the number of individuals in that group-time period, so larger and more intense points show higher counts.
+The y-axis shows the incidence rate, helping to visualize how it varies across different groups and time periods.
+
+
+```{r, echo=FALSE}
+#resubset
+# Create 'Group' variable based on the available data
+data$Group <- ifelse(data$Hispanic == 1, "Hispanic", 
+                     ifelse(data$African.American == 1, "African American",
+                            ifelse(data$Born.In.US == 1, "Born in the US", 
+                                   "Born outside the US")))
+# Create 'TimePeriod' variable based on year of diagnosis
+data$TimePeriod <- ifelse(data$Year.of.Diagnosis >= 2010 & data$Year.of.Diagnosis <= 2016, 
+                           "2010-2016", 
+                           ifelse(data$Year.of.Diagnosis >= 2017 & data$Year.of.Diagnosis <= 2023, 
+                                  "2017-2023", NA))
+
+```
+
+Descriptive Statistics
+```{r, echo=FALSE}
+table(data$Group, data$TimePeriod)
+```
+```{r, echo=FALSE}
+# Initialize a summary table for descriptive statistics
+desc_stats <- data.frame(
+  Group = rep(groups, each = length(time_periods)),
+  TimePeriod = rep(time_periods, times = length(groups)),
+  Mean = NA,
+  Median = NA,
+  SD = NA,
+  Min = NA,
+  Max = NA,
+  IQR = NA
+)
+
+# Calculate statistics for each group and time period
+for(group in groups) {
+  for(period in time_periods) {
+    group_data <- subset(incidence_data, Group == group & TimePeriod == period)$IncidenceRate
+    desc_stats$Mean[desc_stats$Group == group & desc_stats$TimePeriod == period] <- mean(group_data, na.rm = TRUE)
+    desc_stats$Median[desc_stats$Group == group & desc_stats$TimePeriod == period] <- median(group_data, na.rm = TRUE)
+    desc_stats$SD[desc_stats$Group == group & desc_stats$TimePeriod == period] <- sd(group_data, na.rm = TRUE)
+    desc_stats$Min[desc_stats$Group == group & desc_stats$TimePeriod == period] <- min(group_data, na.rm = TRUE)
+    desc_stats$Max[desc_stats$Group == group & desc_stats$TimePeriod == period] <- max(group_data, na.rm = TRUE)
+    desc_stats$IQR[desc_stats$Group == group & desc_stats$TimePeriod == period] <- IQR(group_data, na.rm = TRUE)
+  }
+}
+
+# View the descriptive statistics
+print(desc_stats)
+
+```
+Hispanic: In the time period from 2010-2016, the incidence rate is 0.20, and in 2017-2023, it increases to 0.80. This suggests a significant rise in the incidence rate among the Hispanic group over the two time periods.
+African American: The incidence rate for 2010-2016 is 0.71, which decreases to 0.29 in 2017-2023. This indicates a decline in the incidence rate for African Americans in the second time period.
+Born in the US: For individuals Born in the US, the incidence rate is 0.67 in 2010-2016 and drops to 0.33 in 2017-2023, showing a decrease in incidence over time.
+Born outside the US: For individuals Born outside the US, the incidence rate is 0.47 in 2010-2016, and slightly increases to 0.53 in 2017-2023, showing a slight upward trend in the incidence rate.
+
+Mean and Median: The mean and median values are identical for all groups and time periods because oof the small sample size.
+Standard Deviation: The standard deviation is not available (NA) due to the lack of variation in each group. There is only one data point in each group, so the variance (and standard deviation) cannot be computed.
+Min and Max: The minimum and maximum values are the same for each group and time period since there's only one data point, and thus no range of values.
+Interquartile Range (IQR): The IQR is 0 for all groups, as the data does not have enough variability to produce an interquartile range.
+
+The table shows that the Hispanic group experienced a substantial increase in incidence from 2010-2016 to 2017-2023, while the African American and Born in the US groups saw a decline.
+The Born outside the US group shows a slight increase in incidence, but the change is minimal.
+The small sample size (only one data point per group and time period) prevents more detailed analysis, such as calculating variability (SD) or conducting more sophisticated statistical tests
+
+Thus, while we can describe trends between groups and time periods, we cannot assess the variability or statistical significance due to the size limitations of the dataset. Further data collection would be necessary to gain valuable deeper insights into these trends.
+
+
+
